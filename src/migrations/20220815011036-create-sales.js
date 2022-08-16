@@ -9,10 +9,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       closedTime: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       created: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        allowNull: false
       },
       CustomerName: {
         type: Sequelize.STRING
@@ -24,16 +25,25 @@ module.exports = {
         type: Sequelize.DOUBLE
       },
       rounding: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        allowNull:false
       },
       subtotal: {
-        type: Sequelize.DOUBLE
+        type: Sequelize.DOUBLE,
+        allowNull: false
       },
       total: {
-        type: Sequelize.DOUBLE
+        type: Sequelize.DOUBLE,
+        allowNull: false
       },
       invoice_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references : {
+          model: "invoices",
+          key: "id"
+        },
+        onDelete: "CASCADE"
       },
       createdAt: {
         allowNull: false,

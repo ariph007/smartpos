@@ -9,7 +9,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       companyName: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       address: {
         type: Sequelize.STRING
@@ -21,13 +22,16 @@ module.exports = {
         type: Sequelize.STRING
       },
       rounding: {
-        type: Sequelize.FLOAT
+        type: Sequelize.FLOAT,
+        defaultValue: 0
       },
       serviceChargeRate: {
-        type: Sequelize.FLOAT
+        type: Sequelize.FLOAT,
+        defaultValue: 0
       },
       taxRate: {
-        type: Sequelize.FLOAT
+        type: Sequelize.FLOAT,
+        defaultValue: 0
       },
       createdAt: {
         allowNull: false,

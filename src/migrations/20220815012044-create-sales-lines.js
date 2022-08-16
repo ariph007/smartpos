@@ -9,16 +9,18 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       amount: {
-        type: Sequelize.DOUBLE
+        type: Sequelize.DOUBLE,
+        allowNull:false
       },
       created: {
         type: Sequelize.DATE
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull:false
       },
       discountAmount: {
-        type: Sequelize.DOUBLE
+        type: Sequelize.DOUBLE,
       },
       discountName: {
         type: Sequelize.STRING
@@ -27,22 +29,47 @@ module.exports = {
         type: Sequelize.FLOAT
       },
       unitPrice: {
-        type: Sequelize.DOUBLE
+        type: Sequelize.DOUBLE,
+        allowNull: false
       },
       item_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "items",
+          key: "id"
+        },
+        onDelete : "CASCADE"
       },
       employee_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "employees",
+          key: "id"
+        },
+        onDelete : "CASCADE"
       },
       discount_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: "discounts",
+          key: "id"
+        },
+        onDelete : "CASCADE"
       },
       paymentMethod_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false
       },
       sales_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "payment_methods",
+          key: "id"
+        },
+        onDelete : "CASCADE"
       },
       createdAt: {
         allowNull: false,

@@ -9,31 +9,40 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       code: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: false
       },
       active: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       image: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       openPrice: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       price1: {
-        type: Sequelize.DOUBLE
+        type: Sequelize.DOUBLE,
+        defaultValue: 0
       },
       price2: {
-        type: Sequelize.DOUBLE
+        type: Sequelize.DOUBLE,
+        defaultValue: 0
       },
       price3: {
-        type: Sequelize.DOUBLE
+        type: Sequelize.DOUBLE,
+        defaultValue: 0
       },
       purchased: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       purchasedToInventoryConversion: {
         type: Sequelize.FLOAT
@@ -51,19 +60,32 @@ module.exports = {
         type: Sequelize.FLOAT
       },
       barcode: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true
       },
       serviceCharge: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
       },
       tax: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
       },
       category_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: "categories",
+          key: "id"
+        },
+        onDelete: "CASCADE"
       },
       salesWarehouse_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: "warehouses",
+          key: "id"
+        },
+        onDelete: "CASCADE"
       },
       createdAt: {
         allowNull: false,

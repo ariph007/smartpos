@@ -11,6 +11,45 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.discounts.belongsTo(models.departments, {
+        foreignKey: "department1_id"
+      });
+
+      models.discounts.belongsTo(models.departments, {
+        foreignKey: "department2_id"
+      });
+
+      models.discounts.belongsTo(models.departments, {
+        foreignKey: "department3_id"
+      });
+
+      models.discounts.belongsTo(models.departments, {
+        foreignKey: "category1_id"
+      });
+
+      models.discounts.belongsTo(models.departments, {
+        foreignKey: "category2_id"
+      });
+
+      models.discounts.belongsTo(models.departments, {
+        foreignKey: "category3_id"
+      });
+
+      models.discounts.belongsTo(models.items, {
+        foreignKey: "item1_id"
+      });
+
+      models.discounts.belongsTo(models.items, {
+        foreignKey: "item2_id"
+      });
+
+      models.discounts.belongsTo(models.items, {
+        foreignKey: "item3_id"
+      });
+
+      models.discounts.hasMany(models.sales_lines,{
+        foreignKey: "discount_id"
+      });
     }
   }
   discounts.init({

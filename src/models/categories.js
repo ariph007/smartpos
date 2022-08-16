@@ -11,6 +11,25 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.categories.hasOne(models.discounts,{
+        foreignKey: "category1_id"
+      });
+
+      models.categories.hasOne(models.discounts,{
+        foreignKey: "category2_id"
+      });
+      
+      models.categories.hasOne(models.discounts,{
+        foreignKey: "category3_id"
+      });
+      
+      models.categories.hasMany(models.items,{
+        foreignKey: "category_id"
+      });
+      
+      models.categories.belongsTo(models.departments,{
+        foreignKey: "department_id"
+      });
     }
   }
   categories.init({

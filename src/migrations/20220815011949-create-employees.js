@@ -9,7 +9,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       active: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       jobTitle: {
         type: Sequelize.STRING
@@ -18,14 +19,17 @@ module.exports = {
         type: Sequelize.DATEONLY
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true
       },
       pin: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true
       },
       role: {
 				type: Sequelize.ENUM('manager', 'cashier'),
 				allowNull: false,
+        defaultValue: "cashier"
 			},
       createdAt: {
         allowNull: false,
