@@ -14,7 +14,8 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-        unique: true
+        unique: true,
+        allowNull: false
       },
       department_id: {
         type: Sequelize.INTEGER,

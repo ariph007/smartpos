@@ -4,6 +4,8 @@ const cors = require('cors');
 const {sequelize} = require('./models')
 
 const router = require('./routes/router');
+const authRoute = require('./routes/authRoute');
+const employeeRoute = require('./routes/employeesRoute');
 
 const app = express();
 
@@ -21,5 +23,7 @@ sequelize
 
 
 app.use('/', router);
+app.use('/auth', authRoute);
+app.use('/employee', employeeRoute);
 
 app.listen(process.env.SERVER_PORT, () => {console.log('Server Running')});

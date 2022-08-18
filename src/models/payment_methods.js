@@ -22,7 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     noSales: DataTypes.BOOLEAN,
     noTax: DataTypes.BOOLEAN,
     noServiceCharge: DataTypes.BOOLEAN,
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    name: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'payment_methods',

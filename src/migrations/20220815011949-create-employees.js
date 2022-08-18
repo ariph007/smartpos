@@ -20,11 +20,17 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-        unique: true
+        unique: true,
+        allowNull: false
       },
-      pin: {
+      email: {
         type: Sequelize.STRING,
-        unique: true
+        unique: true,
+        allowNull: false
+      },
+      password: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
       role: {
 				type: Sequelize.ENUM('manager', 'cashier'),
