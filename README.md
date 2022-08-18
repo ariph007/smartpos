@@ -1,5 +1,5 @@
 # SmartPOS
-## An Open Source Point Sales System web based
+## An Open Source Point Of Sales System web based
 
 ## Waiting List features :
 - Employee Management
