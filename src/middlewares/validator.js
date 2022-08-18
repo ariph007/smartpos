@@ -15,3 +15,8 @@ exports.loginValidator = [
 	check('email', 'Email cannot be empty').not().isEmpty(),
     check('password', 'Invalid password').not().isEmpty()
 ]
+
+exports.createDepartmentValidator = [
+	check('code', 'Code cannot be empty').not().isEmpty(),
+    check('name', 'Name cannot be empty').not().isEmpty()
+]

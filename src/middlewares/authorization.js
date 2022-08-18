@@ -34,5 +34,12 @@ exports.verifyToken = async (req, res, next) => {
 exports.verifyRole = async (req, res, next) => {
     let isManager = await employees.findOne({
         where : {id : req.employee.id}
-    })
-}
+    });
+
+    if(isManager.dataValues.role !== 'manager'){
+        return res.status(403).send({
+            message: "You re not authorized to access"
+        })
+    }
+    next();
+};
