@@ -34,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   categories.init({
     code: DataTypes.STRING,
+    active: DataTypes.BOOLEAN,
     name: DataTypes.STRING,
     department_id: DataTypes.INTEGER
   }, {

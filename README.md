@@ -3,7 +3,7 @@
 
 ## Waiting List features :
 - Employee Management
-- Discount Management
+- Discount Management (by Percent, Amount, Category, Department, Item)
 - Department Management
 - Item Management
 - Phsycal Stock Management

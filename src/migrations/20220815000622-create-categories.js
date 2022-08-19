@@ -12,6 +12,10 @@ module.exports = {
         type: Sequelize.STRING,
         unique:true
       },
+      active: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
       name: {
         type: Sequelize.STRING,
         unique: true,
@@ -21,9 +25,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "categories",
+          model: "departments",
           key: "id"
-        }
+        },
+        onDelete: 'CASCADE',
       },
       createdAt: {
         allowNull: false,

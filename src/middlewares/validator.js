@@ -14,9 +14,21 @@ exports.registerValidator = [
 exports.loginValidator = [
 	check('email', 'Email cannot be empty').not().isEmpty(),
     check('password', 'Invalid password').not().isEmpty()
-]
+];
 
 exports.createDepartmentValidator = [
 	check('code', 'Code cannot be empty').not().isEmpty(),
     check('name', 'Name cannot be empty').not().isEmpty()
-]
+];
+
+exports.createCategoryValidator = [
+	check('code', 'Code cannot be empty').not().isEmpty(),
+    check('name', 'Name cannot be empty').not().isEmpty(),
+    check('department_id', 'Department ID cannot be empty').not().isEmpty()
+];
+
+exports.createDiscountValidator = [
+	check('active', 'Code cannot be empty').not().isEmpty(),
+    check('name', 'Name cannot be empty').not().isEmpty(),
+    check('amount', 'Amount cannot be empty').not().isEmpty()
+];

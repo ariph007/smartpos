@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   departments.init({
     code: DataTypes.STRING,
+    active: DataTypes.BOOLEAN,
     name: DataTypes.STRING
   }, {
     sequelize,

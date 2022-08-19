@@ -7,6 +7,8 @@ const router = require('./routes/router');
 const authRoute = require('./routes/authRoute');
 const employeeRoute = require('./routes/employeesRoute');
 const departmentRoute = require('./routes/departmentRoute');
+const categoryRoute = require('./routes/categoryRoute');
+const discountRoute = require('./routes/discountRoute');
 
 const app = express();
 
@@ -27,5 +29,7 @@ app.use('/', router);
 app.use('/auth', authRoute);
 app.use('/employee', employeeRoute);
 app.use('/department', departmentRoute);
+app.use('/category', categoryRoute);
+app.use('/discount', discountRoute);
 
 app.listen(process.env.SERVER_PORT, () => {console.log('Server Running')});

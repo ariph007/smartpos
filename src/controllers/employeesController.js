@@ -46,18 +46,24 @@ exports.getAllEmployee = async (req, res) => {
 };
 
 exports.updateEmployee = async (req, res) => {
-    console.log(req.params.id)
-    try {
-        const {active, jobTitle, joined, name, email, password, role} = req.body;
-        const hashedPassword = bcrypt.hashSync(password, 10);
+    let isValidEmployee = await employees.findAll({
+        where: {id : req.body.id}
+    });
 
+    if(isValidEmployee.length < 1){
+        return res.status(400).send({
+            message: "Invalid id"
+        })
+    };
+    
+    try {
+    const {active, jobTitle, joined, name, email, password, role} = req.body;
         let update = await employees.update({
             active: active,
             jobTitle: jobTitle,
             joined: joined,
             name: name,
             email: email,
-            password: hashedPassword,
             role: role
         },{
             where: {id: req.body.id}
