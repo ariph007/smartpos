@@ -9,6 +9,7 @@ const employeeRoute = require('./routes/employeesRoute');
 const departmentRoute = require('./routes/departmentRoute');
 const categoryRoute = require('./routes/categoryRoute');
 const discountRoute = require('./routes/discountRoute');
+const paymentMethodRoute = require('./routes/paymentMethodRoute');
 
 const app = express();
 
@@ -31,5 +32,6 @@ app.use('/employee', employeeRoute);
 app.use('/department', departmentRoute);
 app.use('/category', categoryRoute);
 app.use('/discount', discountRoute);
+app.use('/payment', paymentMethodRoute);
 
 app.listen(process.env.SERVER_PORT, () => {console.log('Server Running')});

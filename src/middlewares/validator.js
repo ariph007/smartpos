@@ -27,6 +27,11 @@ exports.createCategoryValidator = [
     check('department_id', 'Department ID cannot be empty').not().isEmpty()
 ];
 
+exports.createPaymentMethodValidator = [
+	check('type', 'Code cannot be empty').not().isEmpty(),
+    check('name', 'Name cannot be empty').not().isEmpty(),
+];
+
 exports.createDiscountValidator = [
 	check('active', 'Code cannot be empty').not().isEmpty(),
     check('name', 'Name cannot be empty').not().isEmpty(),
