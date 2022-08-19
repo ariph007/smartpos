@@ -37,3 +37,8 @@ exports.createDiscountValidator = [
     check('name', 'Name cannot be empty').not().isEmpty(),
     check('amount', 'Amount cannot be empty').not().isEmpty()
 ];
+
+exports.createWarehouseValidator = [
+	check('code', 'Code cannot be empty').not().isEmpty(),
+    check('name', 'Name cannot be empty').not().isEmpty(),
+];
