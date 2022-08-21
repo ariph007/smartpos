@@ -1,0 +1,53 @@
+const { items } = require('../models');
+const { validationResult } = require('express-validator');
+const path = require('path');
+const fs = require('fs');
+
+
+exports.createItem = async (req, res) => {
+    // console.log(req.body)
+    // console.log(req.files.image.data)
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).send({
+            message: errors.errors[0].msg
+        });
+    };
+
+    const size = req.files.image.size;
+    if(size > 2000000){
+        return res.status(500).send({
+            message: "Max size 2MB"
+        })
+    }
+
+    try {
+        const image = req.files.image.data;
+        await items.create({
+            code: req.body.code,
+            name: req.body.name,
+            active: req.body.active,
+            image: image,
+            openPrice: req.body.openPrice,
+            price1: req.body.price1,
+            price2: req.body.price2,
+            price3: req.body.price3,
+            purchased: req.body.purchased,
+            purchasedToInventoryConversion: req.body.purchasedToInventoryConversion,
+            purchasePrice: req.body.purchasePrice,
+            purchaseUom: req.body.purchaseUom,
+            recipeUom: req.body.recipeUom,
+            averageCost: req.body.averageCost,
+            barcode: req.body.barcode,
+            serviceCharge: req.body.serviceCharge,
+            tax: req.body.tax,
+            category_id: req.body.category_id,
+            salesWarehouse_id: req.body.salesWarehouse_id
+        });
+        res.status(201).json({ msg: "Product Created Successfuly" });
+    } catch (error) {
+        res.status(500).send({
+            message: error.message
+        })
+    }
+}

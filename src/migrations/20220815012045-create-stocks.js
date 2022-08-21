@@ -14,11 +14,21 @@ module.exports = {
       },
       warehouse_id: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        references: {
+          model: "warehouses",
+          key: "id"
+        },
+        onDelete: 'CASCADE',
       },
       item_id: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        references: {
+          model: "items",
+          key: "id"
+        },
+        onDelete: 'CASCADE',
       },
       createdAt: {
         allowNull: false,
