@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     code: DataTypes.STRING,
     name: DataTypes.STRING,
     active: DataTypes.BOOLEAN,
-    image: DataTypes.BLOB,
+    image: DataTypes.STRING,
     openPrice: DataTypes.BOOLEAN,
     price1: DataTypes.DOUBLE,
     price2: DataTypes.DOUBLE,

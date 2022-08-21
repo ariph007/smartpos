@@ -22,7 +22,8 @@ module.exports = {
         defaultValue: false
       },
       image: {
-        type: Sequelize.BLOB('medium'),
+        type: Sequelize.STRING,
+        defaultValues: null
       },
       openPrice: {
         type: Sequelize.BOOLEAN,

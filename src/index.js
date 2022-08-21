@@ -22,29 +22,54 @@ app.use(express.json());
 
 
 //New
-const fileUpload = require('express-fileupload');
-app.use(fileUpload());
+// const fileUpload = require('express-fileupload');
+// app.use(fileUpload());
 
 const bodyParser = require("body-parser");
 const multer = require('multer');
-var upload = multer();
+// var upload = multer();
 // for parsing application/json
-app.use(
-    bodyParser.json({
-        limit: "50mb",
-    })
-);
+// app.use(
+//     bodyParser.json({
+//         limit: "50mb",
+//     })
+// );
 
 // for parsing application/xwww-form-urlencoded
-app.use(
-    bodyParser.urlencoded({
-        limit: "50mb",
-        extended: true,
-    })
-);
+// app.use(
+//     bodyParser.urlencoded({
+//         limit: "50mb",
+//         extended: true,
+//     })
+// );
 
 // for parsing multipart/form-data
 // app.use(upload.array());
+
+//New
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads');
+    },
+    filename: (req, file, cb) => {
+        cb(null, new Date().getTime() + '-' + file.originalname)
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    if(file.mimetype === "image/png" || 
+    file.mimetype === "image/jpg" || 
+    file.mimetype === "image/jpeg"){
+        cb(null, true);
+    }else{
+        cb(null, false)
+    }
+};
+
+// app.use(bodyParser.json());
+app.use('/uploads', express.static('uploads'));
+app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single("image"));
+
 
 
 app.use(cors({ origin: true, credentials: true }));

@@ -46,6 +46,10 @@ exports.createWarehouseValidator = [
 exports.createSettingValidator = [
 	check('companyName', 'Company name cannot be empty').not().isEmpty(),
 ];
+exports.createStockValidator = [
+	check('warehouse_id', 'Warehouse cannot be empty').not().isEmpty(),
+	check('item_id', 'Item cannot be empty').not().isEmpty(),
+];
 
 exports.createItemValidator = [
 	check('code', 'Code  cannot be empty').not().isEmpty(),

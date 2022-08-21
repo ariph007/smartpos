@@ -5,13 +5,14 @@ const fs = require('fs');
 
 
 exports.createItem = async (req, res) => {
+    console.log(req.body)
     // console.log(req.files.image.data)
-    // const errors = validationResult(req);
-    // if (!errors.isEmpty()) {
-    //     return res.status(400).send({
-    //         message: errors.errors[0].msg
-    //     });
-    // };
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).send({
+            message: errors.errors[0].msg
+        });
+    };
 
     // const size = req.files.image.size;
     // if(size > 2000000){
@@ -21,13 +22,18 @@ exports.createItem = async (req, res) => {
     // }
 
     try {
-        // console.log(req.file.path)
-        const image = req.file.path
+        let image = null
+        if(!req.files){
+             image = ""
+        }else{
+             image = req.files.image.data
+        }
+
         await items.create({
             code: req.body.code,
             name: req.body.name,
             active: req.body.active,
-            image: image,
+            image: null,
             openPrice: req.body.openPrice,
             price1: req.body.price1,
             price2: req.body.price2,

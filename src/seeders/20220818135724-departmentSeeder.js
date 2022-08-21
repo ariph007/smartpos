@@ -11,12 +11,33 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        code: "BEVERAGE",
+        code: "BEVERAGES",
         active: true,
-        name: "BEVERAGE",
+        name: "BEVERAGES",
         createdAt: new Date(),
         updatedAt: new Date(),
-      }
+      },
+      {
+        code: "MODIFIER",
+        active: true,
+        name: "MODIFIER",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        code: "INVENTORY",
+        active: true,
+        name: "INVENTORY",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        code: "RETAIL",
+        active: true,
+        name: "RETAIL",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ], {});
   },
 
