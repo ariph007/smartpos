@@ -62,7 +62,6 @@ module.exports = {
       },
       barcode: {
         type: Sequelize.STRING,
-        unique: true
       },
       serviceCharge: {
         type: Sequelize.BOOLEAN,
