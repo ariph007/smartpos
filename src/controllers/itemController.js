@@ -71,7 +71,9 @@ exports.createItem = async (req, res) => {
 
 exports.getAllItem = async (req, res) => {
     try {
-        let getItem = await items.findAll();
+        let getItem = await items.findAll({
+            where: { category_id: req.body.category_id}
+        });
         return res.status(200).send({
             message: "Retrieve success",
             data: getItem
@@ -195,4 +197,18 @@ exports.updateItem = async (req, res) => {
             data: null
         });
     };
+}
+
+exports.getDetailItem = async (req, res) => {
+    try {
+        let getItem = await items.findOne({
+            where: {id: req.body.id}
+        })
+        return res.status(200).send({
+            message: "Retrieve success",
+            data: getItem
+        })
+    } catch (error) {
+        
+    }
 }

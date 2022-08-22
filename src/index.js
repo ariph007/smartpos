@@ -14,6 +14,7 @@ const paymentMethodRoute = require('./routes/paymentMethodRoute');
 const warehouseRoute = require('./routes/warehouseRoute');
 const settingRoute = require('./routes/settingRoute');
 const itemRoute = require('./routes/itemRoute');
+const stockRoute = require('./routes/stockRoute');
 
 const app = express();
 
@@ -68,5 +69,6 @@ app.use('/payment', paymentMethodRoute);
 app.use('/warehouse', warehouseRoute);
 app.use('/setting', settingRoute);
 app.use('/item', itemRoute);
+app.use('/stock', stockRoute);
 
 app.listen(process.env.SERVER_PORT, () => {console.log('Server Running')});

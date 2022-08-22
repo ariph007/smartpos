@@ -57,11 +57,13 @@ exports.updateEmployee = async (req, res) => {
     };
     
     try {
-    const {active, jobTitle, joined, name, email, password, role} = req.body;
+        const {active, jobTitle, joined, name, email, password, role} = req.body;
+        const hashedPassword = bcrypt.hashSync(password, 10);
         let update = await employees.update({
             active: active,
             jobTitle: jobTitle,
             joined: joined,
+            password: hashedPassword,
             name: name,
             email: email,
             role: role

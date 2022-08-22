@@ -15,7 +15,7 @@ exports.createCategory = async ( req, res) => {
         })
     } catch (error) {
         res.status(500).send({
-            message : error.message || "Something went wrong while create new department"
+            message : error.message || "Something went wrong while create new category"
         })
     }
 };

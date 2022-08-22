@@ -8,5 +8,6 @@ router.post('/create', authorization.verifyToken, authorization.verifyRole, vali
 router.put('/update', authorization.verifyToken, authorization.verifyRole,validator.createItemValidator ,itemController.updateItem);
 router.delete('/delete/:id', authorization.verifyToken, authorization.verifyRole ,itemController.deleteItem);
 router.get('/list', authorization.verifyToken, authorization.verifyRole ,itemController.getAllItem);
+router.get('/detail', authorization.verifyToken, authorization.verifyRole ,itemController.getDetailItem);
 
 module.exports = router
