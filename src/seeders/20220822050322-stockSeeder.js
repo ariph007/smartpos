@@ -6,7 +6,9 @@ module.exports = {
       {
         item_id : 1,
         warehouse_id : 1,
-        balance: 200
+        balance: 200,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     ], {});
   },

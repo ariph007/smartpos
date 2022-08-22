@@ -8,12 +8,8 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      amount: {
-        type: Sequelize.DOUBLE,
-        allowNull:false
-      },
       created: {
-        type: Sequelize.DATE
+        type: Sequelize.STRING
       },
       description: {
         type: Sequelize.STRING,
@@ -28,9 +24,17 @@ module.exports = {
       discountValue: {
         type: Sequelize.FLOAT
       },
+      serviceChargeRate: {
+        type: Sequelize.FLOAT
+      },
       unitPrice: {
         type: Sequelize.DOUBLE,
         allowNull: false
+      },
+      quantity: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 1
       },
       item_id: {
         type: Sequelize.INTEGER,
@@ -52,22 +56,18 @@ module.exports = {
       },
       discount_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: "discounts",
           key: "id"
         },
         onDelete : "CASCADE"
       },
-      paymentMethod_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
       sales_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "payment_methods",
+          model: "sales",
           key: "id"
         },
         onDelete : "CASCADE"

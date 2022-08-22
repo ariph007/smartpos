@@ -15,6 +15,7 @@ const warehouseRoute = require('./routes/warehouseRoute');
 const settingRoute = require('./routes/settingRoute');
 const itemRoute = require('./routes/itemRoute');
 const stockRoute = require('./routes/stockRoute');
+const salesRoute = require('./routes/salesRoute');
 
 const app = express();
 
@@ -70,5 +71,6 @@ app.use('/warehouse', warehouseRoute);
 app.use('/setting', settingRoute);
 app.use('/item', itemRoute);
 app.use('/stock', stockRoute);
+app.use('/sales', salesRoute);
 
 app.listen(process.env.SERVER_PORT, () => {console.log('Server Running')});

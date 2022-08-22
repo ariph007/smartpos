@@ -10,9 +10,9 @@ exports.createDepartment = async ( req, res) => {
         });
 	}
     try {
-        await departments.create(req.body);
+        let insertDepartment = await departments.create(req.body);
         res.status(200).send({
-            message: "Department created"
+            message: insertDepartment
         })
     } catch (error) {
         res.status(500).send({

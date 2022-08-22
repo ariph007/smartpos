@@ -12,10 +12,10 @@ module.exports = {
         type: Sequelize.DATE,
       },
       created: {
-        type: Sequelize.DATE,
+        type: Sequelize.STRING,
         allowNull: false
       },
-      CustomerName: {
+      customerName: {
         type: Sequelize.STRING
       },
       discountAmount: {
@@ -35,6 +35,15 @@ module.exports = {
       total: {
         type: Sequelize.DOUBLE,
         allowNull: false
+      },
+      paymentMethod_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: "payment_methods",
+          key: "id"
+        },
+        onDelete : "CASCADE"
       },
       invoice_id: {
         type: Sequelize.INTEGER,

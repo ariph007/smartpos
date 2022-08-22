@@ -19,10 +19,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignkey: "employee_id"
       });
 
-      models.sales_lines.belongsTo(models.payment_methods,{
-        foreignkey: "paymentMethod_id"
-      });
-
       models.sales_lines.belongsTo(models.discounts,{
         foreignkey: "discount_id"
       });
@@ -33,17 +29,17 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   sales_lines.init({
-    amount: DataTypes.DOUBLE,
-    created: DataTypes.DATE,
+    created: DataTypes.STRING,
     description: DataTypes.STRING,
     discountAmount: DataTypes.DOUBLE,
     discountName: DataTypes.STRING,
     discountValue: DataTypes.FLOAT,
+    serviceChargeRate: DataTypes.DOUBLE,
     unitPrice: DataTypes.DOUBLE,
     item_id: DataTypes.INTEGER,
+    quantity: DataTypes.INTEGER,
     employee_id: DataTypes.INTEGER,
     discount_id: DataTypes.INTEGER,
-    paymentMethod_id: DataTypes.INTEGER,
     sales_id: DataTypes.INTEGER
   }, {
     sequelize,

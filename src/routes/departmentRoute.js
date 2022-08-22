@@ -6,9 +6,9 @@ const validator = require('../middlewares/validator')
 
 
 // router.post('/create', authorization.verifyToken, authorization.verifyRole,validator.createDepartmentValidator ,departmentController.createDepartment);
-router.post('/create' ,departmentController.createDepartment);
-router.put('/update', authorization.verifyToken, authorization.verifyRole,validator.createDepartmentValidator ,departmentController.updateDepartment);
-router.delete('/delete/:id', authorization.verifyToken, authorization.verifyRole ,departmentController.deleteDepartment);
-router.get('/list', authorization.verifyToken, authorization.verifyRole ,departmentController.getAllDepartment);
+router.post('/' ,departmentController.createDepartment);
+router.put('/', authorization.verifyToken, authorization.verifyRole,validator.createDepartmentValidator ,departmentController.updateDepartment);
+router.delete('/:id', authorization.verifyToken, authorization.verifyRole ,departmentController.deleteDepartment);
+router.get('/', authorization.verifyToken, authorization.verifyRole ,departmentController.getAllDepartment);
 
 module.exports = router

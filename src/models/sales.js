@@ -18,18 +18,23 @@ module.exports = (sequelize, DataTypes) => {
       models.sales.belongsTo(models.invoices,{
         foreignKey: "invoice_id"
       });
+
+      models.sales.belongsTo(models.payment_methods,{
+        foreignkey: "paymentMethod_id"
+      });
     }
   }
   sales.init({
     closedTime: DataTypes.DATE,
-    created: DataTypes.DATE,
-    CustomerName: DataTypes.STRING,
+    created: DataTypes.STRING,
+    customerName: DataTypes.STRING,
     discountAmount: DataTypes.DOUBLE,
     extraCharge: DataTypes.DOUBLE,
     rounding: DataTypes.BOOLEAN,
     subtotal: DataTypes.DOUBLE,
     total: DataTypes.DOUBLE,
-    invoice_id: DataTypes.INTEGER
+    invoice_id: DataTypes.INTEGER,
+    paymentMethod_id: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'sales',
