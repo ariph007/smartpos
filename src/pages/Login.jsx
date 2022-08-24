@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import Logo from '../components/Logo';
 import axios from 'axios';
 import { ThreeDots } from 'react-loader-spinner';
@@ -7,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
+    const navigateTo = useNavigate();
     const [loading, setLoading] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
@@ -27,10 +29,13 @@ const Login = () => {
                 toast.success(result.data.message, {
                     position: toast.POSITION.TOP_CENTER,
                     autoClose: 1500
-                  });
+                });
+                setInterval(() => {
+                    navigateTo('/order')
+                }, 2000);
             }).catch((err) => {
                 setLoading(false)
-                toast.error(err.response.data.message,{
+                toast.error(err.response.data.message, {
                     position: toast.POSITION.TOP_CENTER,
                     autoClose: 1500
                 });
@@ -39,7 +44,7 @@ const Login = () => {
 
     return (
         <div className='bg-primary w-full h-screen flex flex-col items-center'>
-            <ToastContainer limit={1}/>
+            <ToastContainer limit={1} />
             <div className='w-[90%] 2xl:max-w-[1536px] mt-4 flex flex-row h-screen'>
                 <div className='flex w-full'>
                     <div className=' w-full md:w-1/2'>

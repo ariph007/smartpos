@@ -4,12 +4,12 @@ import { category } from '../constants/category';
 const OrderCategory = () => {
     const slideLeft = () => {
         let slider = document.getElementById('sliderCategory')
-        slider.scrollTop = slider.scrollTop - 500
+        slider.scrollTop = slider.scrollTop - 100
     }
 
     const slideRight = () => {
         let slider = document.getElementById('sliderCategory')
-        slider.scrollTop = slider.scrollTop + 500
+        slider.scrollTop = slider.scrollTop + 100
     }
 
     return (
@@ -18,7 +18,7 @@ const OrderCategory = () => {
                 id='sliderCategory'
                 className='w-full h-[70%] flex flex-col gap-2  overflow-y-scroll whitespace-nowrap scroll-smooth scrollbar-hide relative'>
                 {category?.map((item, index) => (
-                    <p className='bg-secondary hover:bg-neutral-600 py-4 text-xs rounded-md text-center cursor-pointer'>{item.name}</p>
+                    <p key={index} className='bg-secondary hover:bg-neutral-600 py-4 text-xs rounded-md text-center cursor-pointer'>{item.name}</p>
                 ))}
             </div>
             <div className='flex flex-col gap-2'>
