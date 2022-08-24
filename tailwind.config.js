@@ -9,10 +9,11 @@ module.exports = {
     },
     extend: {
       colors: {
-        primary: '#2d2d2d',
-        secondary: '#111315',
-        navajo: '#ffdead',
-        cornsilk: '#fff8dc'
+        primary: '#111315',
+        secondary: '#2d2d2d',
+        danger: '#df4759',
+        warning: '#ffc107',
+        success: '#42ba96'
 			},
     },
   },
