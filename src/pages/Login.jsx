@@ -35,7 +35,7 @@ const Login = () => {
                 }, 2000);
             }).catch((err) => {
                 setLoading(false)
-                toast.error(err.response.data.message, {
+                toast.error(err.response.data?.message || "Error while connecting to database" , {
                     position: toast.POSITION.TOP_CENTER,
                     autoClose: 1500
                 });
