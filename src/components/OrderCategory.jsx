@@ -27,7 +27,7 @@ const OrderCategory = () => {
     };
 
     const getItems = async (categoryId) => {
-        console.log(categoryId)
+        // console.log(categoryId)
         await instance.get(`/item/category/${categoryId}`,)
             .then((result) => {
                 setItems(result.data.data)

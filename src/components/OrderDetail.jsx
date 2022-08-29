@@ -12,24 +12,12 @@ const OrderDetail = () => {
     const searchInputRef = useRef(null);
 
     const doubleItemClick = () => {
-        setActiveItem(prevState => ({
-            ...prevState,
-            isActive: false
-        }));
+        setActiveItem(null);
     };
 
     const itemDetailHandler = (item) => {
-        setActiveItem(prevState => ({
-            ...prevState,
-            id: item.id,
-            index: item.index,
-            itemName: item.itemName,
-            qty: item.qty,
-            // price: item.itemPrice,
-            totalItemPrice: item.totalItemPrice,
-            isActive: true
-        }));
-        // console.log(listOrders)
+        setActiveItem(item.index);
+        console.log(activeItem)
     };
 
     const voidItemHandler = (item) => {
@@ -63,9 +51,11 @@ const OrderDetail = () => {
                 <div className='max-h-[55vh] min-h-[55vh] overflow-y-scroll whitespace-nowrap scroll-smooth scrollbar-hide'>
                     {listOrders?.map((item, i) => (
                         <div key={i} data-aos="fade-up" onClick={() => itemDetailHandler(item)} onDoubleClick={() => doubleItemClick()}
-                            className={activeItem.id === item.id && activeItem.isActive === true ? "flex cursor-pointer text-xs w-full mb-4 bg-neutral-600 hover:bg-secondary/60 h-10 items-center gap-4 rounded-md" : 'flex cursor-pointer text-xs w-full mb-4 bg-secondary hover:bg-neutral-600 h-10 items-center gap-4 rounded-md'}>
+                            className={activeItem === item.index ? 
+                            "flex cursor-pointer text-xs w-full mb-4 bg-neutral-600 hover:bg-secondary/60 h-10 items-center gap-4 rounded-md" : 
+                            'flex cursor-pointer text-xs w-full mb-4 bg-secondary hover:bg-neutral-600 h-10 items-center gap-4 rounded-md'}>
                             {
-                                activeItem.id === item.id && activeItem.isActive === true && activeItem.index === item.index ?
+                                activeItem === item.index ?
                                     <div  onClick={() => voidItemHandler(item, i)} className='bg-secondary hover:bg-slate-700 h-full px-3 rounded-md flex justify-center items-center'>
                                         <FiTrash2 color='#df4759' size={20} />
                                     </div>
@@ -73,7 +63,6 @@ const OrderDetail = () => {
                                     <p data-aos="fade-left" className='bg-white z-40 px-1 text-secondary rounded-full ml-2'>{i + 1}</p>
                             }
                             <p className='w-9/12'>{item.itemName}</p><span>{item.qty}</span>
-                            {/* <p className='text-right w-2/12 mr-2'>{thousandSeperator(item?.subtotal)}</p> */}
                             <p className='text-right w-2/12 mr-2'>{thousandSeperator(item.totalItemPrice)}</p>
                         </div>
                     ))}

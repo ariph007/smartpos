@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ContextProvider } from '../helpers/context';
+import { totalItemPrice, serviceChargeAmount, taxAmount } from '../constants/orderFormula';
 
 
 const OrderQty = () => {
-    const { listOrders, setListOrders, activeItem, setActiveItem } = useContext(ContextProvider);
+    const { listOrders, setListOrders, activeItem, setActiveItem, setting } = useContext(ContextProvider);
     const [qtyPopUp, setQtyPopPup] = useState(false);
 
     const qtyPopUpHandler = () => {
@@ -16,11 +17,13 @@ const OrderQty = () => {
             let orderFiltered = [];
             // setListOrders(1)
             for (const item of listOrders) {
-                if (item.index === activeItem.index) {
+                if (item.index === activeItem) {
                     let newItem = [];
                     newItem = item;
                     newItem.qty = qty;
-                    newItem.totalItemPrice = newItem.qty * newItem.itemPrice;
+                    newItem.totalItemPrice = totalItemPrice(newItem.qty,  newItem.itemPrice);
+                    newItem.serviceChargeAmount = newItem.serviceCharge ? serviceChargeAmount(setting.serviceChargeRate, item.totalItemPrice) : 0;
+                    newItem.taxAmount = newItem.tax ? taxAmount(setting.taxRate, newItem.totalItemPrice) : 0;
                     console.log(newItem)
                     orderFiltered.push(newItem)
                 } else {

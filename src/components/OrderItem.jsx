@@ -2,11 +2,24 @@ import React, { useContext, useEffect, useState } from 'react';
 import { product } from '../constants/product';
 import { ContextProvider } from '../helpers/context';
 import instance from '../services/axiosConfig';
+import { taxAmount, totalItemPrice, serviceChargeAmount } from '../constants/orderFormula';
 
 const OrderItem = () => {
-  const [orderItems, setOrderItems] = useState([]);
-  const { items, listOrders, setListOrders } = useContext(ContextProvider);
-  let [indexItem, setIndexItem] = useState(1)
+  // const [orderItems, setOrderItems] = useState([]);
+  const { items, listOrders, setListOrders,setting, setSetting, totalOrderAmount, setTotalAmount } = useContext(ContextProvider);
+  let [indexItem, setIndexItem] = useState(1);
+
+  const getSetting = async () =>{
+    await instance.get('/setting')
+    .then((result) => {
+      setSetting(result.data.data[0])
+      console.log(setting)
+      // console.log(setting)
+    }).catch((err) => {
+      console.log(err)
+    });
+  };
+
   const oderItemsHandler = (item, index ) => {
     setIndexItem(indexItem+=1);
     setListOrders(prev => [...prev, 
@@ -19,16 +32,30 @@ const OrderItem = () => {
         qty : 1,
         totalItemPrice: item.price1,
         tax: item.tax,
-        serviceCharge: item.serviceCharge
+        taxAmount : item.tax ? taxAmount(setting.taxRate, item.price1) : 0,
+        serviceCharge: item.serviceCharge,
+        serviceChargeAmount:  item.serviceCharge ? serviceChargeAmount(setting.serviceChargeRate, item.price1) : 0
       }
-    ])
+    ]);
+
+    // console.log(setting.serviceChargeRate)
+    // console.log(item.price1)
+
+    const totalAmount = listOrders?.length && 
+    listOrders.reduce(function(acc, obj){
+      return acc + obj.totalItemPrice
+    },0)
+    console.log(listOrders)
+    // console.log(totalAmount)
   };
 
 
+  
 
   useEffect(() => {
     // getItems();
-  }, [items])
+    getSetting();
+  }, [items, listOrders])
 
   return (
     <div className='w-10/12 overflow-hidden'>
