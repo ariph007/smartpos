@@ -1,5 +1,7 @@
 const { items } = require('../models');
 const { validationResult } = require('express-validator');
+const { Op } = require('sequelize');
+
 
 
 exports.createItem = async (req, res) => {
@@ -69,10 +71,55 @@ exports.createItem = async (req, res) => {
     }
 }
 
-exports.getAllItem = async (req, res) => {
+exports.getSpecificItem = async (req, res) => {
     try {
         let getItem = await items.findAll({
-            where: { category_id: req.body.category_id}
+            where: {
+                [Op.or]: [
+                    {
+                        code: {
+                            [Op.like] : `%${req.params.keyword}%`
+                        }
+                    },
+                    {
+                        name: {
+                            [Op.like] : `%${req.params.keyword}%`
+                        }
+                    },
+                    {
+                        barcode: {
+                            [Op.like] : `%${req.params.keyword}%`
+                        }
+                    }
+                ],
+                active: true
+            }
+        });
+
+        return res.status(200).send({
+            message: "Retrieve success",
+            data: getItem[0]
+        });
+    } catch (error) {
+        res.status(500).send({
+            code: 500,
+            status: false,
+            message: error.message || "Something went wrong while get item",
+            data: null
+        });
+    }
+}
+
+exports.getItemCategory = async (req, res) => {
+        console.log(req.params.category_id)
+    try {
+        let getItem = await items.findAll({
+            where: {
+                category_id: {
+                    [Op.eq]: req.params.category_id,
+                },
+                active: true
+            }
         });
         return res.status(200).send({
             message: "Retrieve success",
@@ -183,7 +230,7 @@ exports.updateItem = async (req, res) => {
             category_id: req.body.category_id,
             salesWarehouse_id: req.body.salesWarehouse_id
         }, {
-            where : {id: req.body.id}
+            where: { id: req.body.id }
         });
 
         return res.status(201).send({
@@ -202,13 +249,13 @@ exports.updateItem = async (req, res) => {
 exports.getDetailItem = async (req, res) => {
     try {
         let getItem = await items.findOne({
-            where: {id: req.body.id}
+            where: { id: req.body.id }
         })
         return res.status(200).send({
             message: "Retrieve success",
             data: getItem
         })
     } catch (error) {
-        
+
     }
 }

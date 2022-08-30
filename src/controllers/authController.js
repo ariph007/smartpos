@@ -62,9 +62,10 @@ exports.login = async (req, res) => {
 
     if(checkEmail.length <= 0){
         return res.status(400).send({
-            message: "Email not found on database"
+            message: "The email address you entered isn't connected to an account"
         })
     };
+
     try {
         let getEmployee = await employees.findOne({
             where: {email : req.body.email}
@@ -74,9 +75,15 @@ exports.login = async (req, res) => {
 
         if(!isPasswordValid){
             return res.status(400).send({
-                message: "Password invalid"
+                message: "Invalid Password"
             });
         };
+
+        if(!getEmployee.active){
+            return res.status(400).send({
+                message: "Your account is not active yet,  Please contact your manager to activate"
+            })
+        }
 
         const token = jwt.sign({
             id: getEmployee.dataValues.id,
@@ -84,7 +91,7 @@ exports.login = async (req, res) => {
             name: getEmployee.dataValues.name,
             email: getEmployee.dataValues.email,
             role: getEmployee.dataValues.role,
-        }, process.env.JWT_KEY, {expiresIn: 3600});
+        }, process.env.JWT_KEY, {expiresIn: 32400});
 
         return res.status(200).send({
             message: "Login Successfull",
