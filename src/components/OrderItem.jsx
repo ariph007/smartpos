@@ -6,14 +6,14 @@ import { taxAmount, totalItemPrice, serviceChargeAmount } from '../constants/ord
 
 const OrderItem = () => {
   // const [orderItems, setOrderItems] = useState([]);
-  const { items, listOrders, setListOrders,setting, setSetting, totalOrderAmount, setTotalAmount } = useContext(ContextProvider);
+  const { items, listOrders, setListOrders,setting, setSetting, totalOrderAmount, setTotalAmount, setActiveItem } = useContext(ContextProvider);
   let [indexItem, setIndexItem] = useState(1);
 
   const getSetting = async () =>{
     await instance.get('/setting')
     .then((result) => {
       setSetting(result.data.data[0])
-      console.log(setting)
+      // console.log(setting)
       // console.log(setting)
     }).catch((err) => {
       console.log(err)
@@ -37,15 +37,11 @@ const OrderItem = () => {
         serviceChargeAmount:  item.serviceCharge ? serviceChargeAmount(setting.serviceChargeRate, item.price1) : 0
       }
     ]);
-
+    setActiveItem(null)
     // console.log(setting.serviceChargeRate)
     // console.log(item.price1)
 
-    const totalAmount = listOrders?.length && 
-    listOrders.reduce(function(acc, obj){
-      return acc + obj.totalItemPrice
-    },0)
-    console.log(listOrders)
+    
     // console.log(totalAmount)
   };
 
