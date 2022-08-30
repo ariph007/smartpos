@@ -6,8 +6,9 @@ export const ContextWrapper = props => {
     const [items, setItems] = useState([]);
     const [listOrders, setListOrders] = useState([]);
     const [activeItem, setActiveItem] = useState([]);
-    const [totalOrderAmount, setTotalAmount] =  useState([])
-    const [setting, setSetting] =  useState({})
+    const [totalOrderAmount, setTotalAmount] =  useState([]);
+    const [setting, setSetting] =  useState({});
+    const [indexItem, setIndexItem] = useState(0);
 
     return (
         <ContextProvider.Provider 
@@ -21,7 +22,8 @@ export const ContextWrapper = props => {
             totalOrderAmount,
             setTotalAmount,
             setting,
-            setSetting }}>
+            setSetting,
+            indexItem, setIndexItem }}>
             {props.children}
         </ContextProvider.Provider>
     )

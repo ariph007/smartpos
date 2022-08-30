@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Items } from '../constants/items';
 import { thousandSeperator } from '../constants/thousandSeperator';
-import { totalPay, totalAfterRounding, totalBeforeRounding } from '../constants/orderFormula';
+import { totalPay, totalAfterRounding, totalBeforeRounding, taxAmount, serviceChargeAmount } from '../constants/orderFormula';
 import { FiTrash2 } from 'react-icons/fi';
 import { ContextProvider } from '../helpers/context';
 import instance from '../services/axiosConfig';
@@ -9,9 +9,41 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 const OrderDetail = () => {
-    const { listOrders, setListOrders, activeItem, setActiveItem, setting, setSetting } = useContext(ContextProvider);
+    let { listOrders, setListOrders, activeItem, setActiveItem, setting, setSetting, indexItem, setIndexItem } = useContext(ContextProvider);
     // console.log(setting)
     const searchInputRef = useRef(null);
+
+    const searchHandler = async (e) => {
+        const input = document.getElementById('searchInput').value;
+        if (e.key === 'Enter') {
+            try {
+                const getItem = await instance.get(`/item/${input}`);
+                const item = getItem.data.data
+                setIndexItem(indexItem += 1);
+                setListOrders(prev => [...prev,
+                {
+                    id: item.id,
+                    index: indexItem,
+                    itemName: item.name,
+                    itemPrice: item.price1,
+                    isActive: false,
+                    qty: 1,
+                    totalItemPrice: item.price1,
+                    tax: item.tax,
+                    taxAmount: item.tax ? taxAmount(setting.taxRate, item.price1) : 0,
+                    serviceCharge: item.serviceCharge,
+                    serviceChargeAmount: item.serviceCharge ? serviceChargeAmount(setting.serviceChargeRate, item.price1) : 0
+                }
+                ]);
+                setActiveItem(null)
+                // console.log(item)
+
+            } catch (error) {
+                console.log(`${error.code}: ${error.message}`)
+            }
+
+        }
+    }
 
     const doubleItemClick = () => {
         setActiveItem(null);
@@ -43,15 +75,15 @@ const OrderDetail = () => {
             });
     };
     const subTotalItem = listOrders?.length &&
-    listOrders.reduce(function (acc, obj) {
-        return acc + obj.totalItemPrice
+        listOrders.reduce(function (acc, obj) {
+            return acc + obj.totalItemPrice
         }, 0);
 
     const totalQty = listOrders?.length &&
         listOrders.reduce(function (acc, obj) {
             return acc + obj.qty
         }, 0);
-    
+
     // const subTotalPay = subTotalItem;
 
     const totalTax = listOrders?.length &&
@@ -85,7 +117,9 @@ const OrderDetail = () => {
     return (
         <div className='w-3/12 overflow-hidden'>
             <input
+                id='searchInput'
                 ref={searchInputRef}
+                onKeyDown={searchHandler}
                 type="text"
                 className='focus:outline-1 w-full rounded-sm bg-secondary/90 h-8 indent-2 focus-within:shadow-md focus' />
             <div className='mt-4 flex flex-col max-h-screen relative'>
@@ -107,7 +141,7 @@ const OrderDetail = () => {
                             <p className='text-right w-2/12 mr-2'>{thousandSeperator(item.totalItemPrice)}</p>
                         </div>
                     )) :
-                    <p className='text-center text-sm text-white/80'>There is no order</p>}
+                        <p className='text-center text-sm text-white/80'>There is no order</p>}
                 </div>
                 <div className='max-h-[32vh] min-h-[32vh] mb-2 w-full bg-secondary rounded-md px-2 text-xs z-40'>
                     <div className='border-b-2 border-dotted'>
@@ -136,7 +170,7 @@ const OrderDetail = () => {
                         <div className='flex justify-between text-xl font-medium pb-4'>
                             <p>Total</p>
                             <p>{setting.hasOwnProperty('rounding') ? thousandSeperator(totalMustPaid) : 0}</p>
-                        {/* <p>{totalAfterRounding}</p> */}
+                            {/* <p>{totalAfterRounding}</p> */}
                         </div>
                     </div>
                 </div>

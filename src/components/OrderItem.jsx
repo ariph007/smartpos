@@ -6,8 +6,8 @@ import { taxAmount, totalItemPrice, serviceChargeAmount } from '../constants/ord
 
 const OrderItem = () => {
   // const [orderItems, setOrderItems] = useState([]);
-  const { items, listOrders, setListOrders,setting, setSetting, totalOrderAmount, setTotalAmount, setActiveItem } = useContext(ContextProvider);
-  let [indexItem, setIndexItem] = useState(1);
+  let { items, listOrders, setListOrders,setting, setSetting,indexItem, setIndexItem, totalOrderAmount, setTotalAmount, setActiveItem } = useContext(ContextProvider);
+  // let [indexItem, setIndexItem] = useState(1);
 
   const getSetting = async () =>{
     await instance.get('/setting')
