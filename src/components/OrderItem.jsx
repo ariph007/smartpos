@@ -2,61 +2,109 @@ import React, { useContext, useEffect, useState } from 'react';
 import { product } from '../constants/product';
 import { ContextProvider } from '../helpers/context';
 import instance from '../services/axiosConfig';
-import { taxAmount, totalItemPrice, serviceChargeAmount } from '../constants/orderFormula';
+import { totalPay, totalAfterRounding, totalBeforeRounding, taxAmount, serviceChargeAmount } from '../constants/orderFormula';
+
 
 const OrderItem = () => {
   // const [orderItems, setOrderItems] = useState([]);
-  let { items, listOrders, setListOrders,setting, setSetting,indexItem, setIndexItem, totalOrderAmount, setTotalAmount, setActiveItem } = useContext(ContextProvider);
-  // let [indexItem, setIndexItem] = useState(1);
+  let {
+    items,
+    listOrders,
+    setListOrders, setting,
+    setSetting, indexItem,
+    setIndexItem,
+    setActiveItem,
+    orderInfo,
+    setOrderInfo
+  } = useContext(ContextProvider);
 
-  const getSetting = async () =>{
+  const getSetting = async () => {
     await instance.get('/setting')
-    .then((result) => {
-      setSetting(result.data.data[0])
-      // console.log(setting)
-      // console.log(setting)
-    }).catch((err) => {
-      console.log(err)
-    });
+      .then((result) => {
+        setSetting(result.data.data[0])
+      }).catch((err) => {
+        console.log(err)
+      });
   };
 
-  const oderItemsHandler = (item, index ) => {
-    setIndexItem(indexItem+=1);
-    setListOrders(prev => [...prev, 
-      {
-        id: item.id,
-        index:indexItem,
-        itemName : item.name,
-        itemPrice : item.price1,
-        isActive: false,
-        qty : 1,
-        totalItemPrice: item.price1,
-        tax: item.tax,
-        taxAmount : item.tax ? taxAmount(setting.taxRate, item.price1) : 0,
-        serviceCharge: item.serviceCharge,
-        serviceChargeAmount:  item.serviceCharge ? serviceChargeAmount(setting.serviceChargeRate, item.price1) : 0
-      }
+  const oderItemsHandler = (item, index) => {
+    console.log(item)
+    setIndexItem(indexItem += 1);
+    setListOrders(prev => [...prev,
+    {
+      id: item.id,
+      categoryId: item.category_id,
+      departmentId: item.category.department_id,
+      index: indexItem,
+      itemName: item.name,
+      itemPrice: item.price1,
+      isActive: false,
+      qty: 1,
+      totalItemPrice: item.price1,
+      tax: item.tax,
+      taxAmount: item.tax ? taxAmount(setting.taxRate, item.price1) : 0,
+      serviceCharge: item.serviceCharge,
+      serviceChargeAmount: item.serviceCharge ? serviceChargeAmount(setting.serviceChargeRate, item.price1) : 0,
+      discount: false,
+      discountAmunt: 0,
+      discName : '',
+      discId : null
+    }
     ]);
-    setActiveItem(null)
-    // console.log(setting.serviceChargeRate)
-    // console.log(item.price1)
-
+    // console.log(listOrders);
+    setActiveItem(null);
     
-    // console.log(totalAmount)
   };
 
+  const orderInfoHandler = () => {
+    const subTotalItem = listOrders?.length &&
+        listOrders.reduce(function (acc, obj) {
+            return acc + obj.totalItemPrice
+        }, 0);
 
-  
+    const totalQty = listOrders?.length &&
+        listOrders.reduce(function (acc, obj) {
+            return acc + obj.qty
+        }, 0);
+    const totalTax = listOrders?.length &&
+      listOrders.reduce(function (acc, obj) {
+        return acc + obj.taxAmount
+      }, 0);
+
+    const totalServiceCharge = listOrders?.length &&
+      listOrders.reduce(function (acc, obj) {
+        return acc + obj.serviceChargeAmount
+      }, 0);
+
+    const totalAmountRounding = totalAfterRounding(totalTax, totalServiceCharge, subTotalItem, setting.rounding) - (totalBeforeRounding(totalTax, totalServiceCharge, subTotalItem))
+    const totalMustPaid = totalAfterRounding(totalTax, totalServiceCharge, subTotalItem, setting.rounding, orderInfo.totalDisc);
+    
+
+    setOrderInfo(
+    {
+      ...orderInfo,
+      totalTax: totalTax,
+      totalServiceCharge: totalServiceCharge,
+      totalAmountRounding: totalAmountRounding,
+      subTotalItem: subTotalItem,
+      totalMustPaid: totalMustPaid,
+      totalQty: totalQty,
+      totalItem: listOrders.length
+    })
+  }
+
 
   useEffect(() => {
     // getItems();
     getSetting();
+    orderInfoHandler();
+    // console.log(orderInfo.totalMustPaid)
   }, [items, listOrders])
 
   return (
     <div className='w-10/12 overflow-hidden'>
       <div className='grid grid-cols-5 gap-2 mr-4 text-sm font-medium justify-center items-center'>
-        {items.length >= 1 ? items.map((item,index) => (
+        {items.length >= 1 ? items.map((item, index) => (
           <div
             onClick={() => oderItemsHandler(item, indexItem)}
             key={index}

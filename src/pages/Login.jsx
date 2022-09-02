@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../components/Logo';
@@ -6,6 +6,8 @@ import axios from 'axios';
 import { ThreeDots } from 'react-loader-spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ContextProvider } from '../helpers/context';
+
 
 const Login = () => {
     const navigateTo = useNavigate();
@@ -16,6 +18,7 @@ const Login = () => {
             password: ""
         }
     });
+    let {token, setToken} = useContext(ContextProvider);
 
     // console.log(errors)
     const loginHandler = async (data) => {
@@ -25,6 +28,9 @@ const Login = () => {
             password: data.password
         })
             .then((result) => {
+                // console.log(result.data.token)
+                localStorage.setItem('token', result.data.token)
+                // setToken(result.data.token)
                 setLoading(false)
                 toast.success(result.data.message, {
                     position: toast.POSITION.TOP_CENTER,

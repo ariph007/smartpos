@@ -8,7 +8,7 @@ function App() {
     <ContextWrapper>
       <Router>
         <Routes>
-          <Route path='/login' element={<Login />} />
+          <Route path='/' element={<Login />} />
           <Route path='/order' element={<Order />} />
         </Routes>
       </Router>

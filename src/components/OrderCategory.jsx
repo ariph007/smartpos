@@ -10,7 +10,7 @@ const OrderCategory = () => {
     const getCategory = async () => {
         await instance.get('/category')
             .then((result) => {
-                setCategory(result.data.data)
+                setCategory(result.data.data);
             }).catch((err) => {
                 console.log(err)
             });
