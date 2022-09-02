@@ -1,4 +1,4 @@
-const { items } = require('../models');
+const { items, departments, categories } = require('../models');
 const { validationResult } = require('express-validator');
 const { Op } = require('sequelize');
 
@@ -69,6 +69,21 @@ exports.createItem = async (req, res) => {
             message: error.message
         })
     }
+};
+
+
+exports.getDetailItem = async (req, res) => {
+    try {
+        let getItemDetail = await items.findOne({
+            where: { id: req.body.id }
+        })
+        return res.status(200).send({
+            // message: "Retrieve success",
+            data: getItemDetail
+        })
+    } catch (error) {
+
+    }
 }
 
 exports.getSpecificItem = async (req, res) => {
@@ -78,22 +93,32 @@ exports.getSpecificItem = async (req, res) => {
                 [Op.or]: [
                     {
                         code: {
-                            [Op.like] : `%${req.params.keyword}%`
+                            [Op.like]: `%${req.params.keyword}%`
                         }
                     },
                     {
                         name: {
-                            [Op.like] : `%${req.params.keyword}%`
+                            [Op.like]: `%${req.params.keyword}%`
                         }
                     },
                     {
                         barcode: {
-                            [Op.like] : `%${req.params.keyword}%`
+                            [Op.like]: `%${req.params.keyword}%`
                         }
                     }
                 ],
                 active: true
-            }
+            },
+            include: [
+                {
+                    model: categories,
+                    require: true,
+                    include: [{
+                        model: departments,
+                        require: true
+                    }]
+                },
+            ]
         });
 
         return res.status(200).send({
@@ -111,7 +136,7 @@ exports.getSpecificItem = async (req, res) => {
 }
 
 exports.getItemCategory = async (req, res) => {
-        console.log(req.params.category_id)
+    // console.log(req.params.category_id)
     try {
         let getItem = await items.findAll({
             where: {
@@ -119,7 +144,17 @@ exports.getItemCategory = async (req, res) => {
                     [Op.eq]: req.params.category_id,
                 },
                 active: true
-            }
+            },
+            include: [
+                {
+                    model: categories,
+                    require: true,
+                    include: [{
+                        model: departments,
+                        require: true
+                    }]
+                },
+            ]
         });
         return res.status(200).send({
             message: "Retrieve success",
@@ -246,16 +281,3 @@ exports.updateItem = async (req, res) => {
     };
 }
 
-exports.getDetailItem = async (req, res) => {
-    try {
-        let getItem = await items.findOne({
-            where: { id: req.body.id }
-        })
-        return res.status(200).send({
-            message: "Retrieve success",
-            data: getItem
-        })
-    } catch (error) {
-
-    }
-}

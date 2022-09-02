@@ -55,6 +55,7 @@ module.exports = (sequelize, DataTypes) => {
   discounts.init({
     active: DataTypes.BOOLEAN,
     amount: DataTypes.BOOLEAN,
+    subtotal: DataTypes.BOOLEAN,
     name: DataTypes.STRING,
     value: DataTypes.FLOAT,
     department1_id: DataTypes.INTEGER,

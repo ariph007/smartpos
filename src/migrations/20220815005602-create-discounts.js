@@ -16,6 +16,10 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       },
+      subtotal: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
+      },
       name: {
         type: Sequelize.STRING,
         unique: true,

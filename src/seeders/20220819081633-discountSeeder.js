@@ -6,6 +6,7 @@ module.exports = {
       {
         active: true,
         amount: true,
+        subtotal: true,
         name: "DISC 50K",
         value: 50000,
         department1_id: null,
@@ -25,6 +26,7 @@ module.exports = {
         amount: false,
         name: "DISC 10%",
         value: 10,
+        subtotal:true,
         department1_id: null,
         department2_id: null,
         department3_id: null,
