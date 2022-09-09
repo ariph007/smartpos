@@ -1,6 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 const plugin = require('tailwindcss/plugin')
 module.exports = {
+  mode: 'jit',
+  purge: [
+    './public/**/*.html',
+    './src/**/*.{js,jsx,ts,tsx,vue}',
+  ],
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
@@ -18,6 +23,7 @@ module.exports = {
         navajo: '#FFDEAD',
         chiffon: '#FFFACD'
 			},
+      
     },
   },
   plugins: [

@@ -24,22 +24,42 @@ const DiscMenu = ({ listDisc, discMenu, setDiscMenu }) => {
     };
 
     const btnDiscountHandler = (disc) => {
+        //Check if discount amount is greater than total must paid, if it true then can't get discount
         if (listOrders.length > 0) {
             if (disc.amount && disc.value && disc.subtotal > orderInfo.totalMustPaid) {
                 toast.error("Discount greater than total must paid", {
                     position: toast.POSITION.TOP_CENTER,
                     autoClose: 1500
                 });
-                //Controlling for discount by amount
+                // Check if it discount by amount and effect to subtotal and value 
+                // not greater than total must paid, if true then can get discount
             } else if (disc.amount && disc.subtotal && disc.value < orderInfo.totalMustPaid) {
-                setSelectedDisc(disc);
+                console.log('naisss')
+
                 let newObjectOrder = [];
+
+
                 for (const order of listOrders) {
-                    order.discount = true;
-                    order.discName = disc.name;
-                    order.discId = disc.id;
-                    order.discountAmunt = disc.value/listOrders.length
-                    newObjectOrder.push(order)
+                    if (
+                        order.categoryId === disc.category1_id ||
+                        order.categoryId === disc.category2_id ||
+                        order.categoryId === disc.category3_id ||
+                        order.departmentId === disc.department1_id ||
+                        order.departmentId === disc.department2_id ||
+                        order.departmentId === disc.department3_id ||
+                        order.id === disc.item1 ||
+                        order.id === disc.item2 ||
+                        order.id === disc.item3
+                    ) {
+                setSelectedDisc(disc);
+                        order.discount = true;
+                        order.discName = disc.name;
+                        order.discId = disc.id;
+                        order.discountAmunt = disc.value / listOrders.length
+                        newObjectOrder.push(order)
+                    }else{
+                        newObjectOrder.push(order)
+                    }
                     setListOrders(newObjectOrder);
                 }
 
@@ -56,8 +76,32 @@ const DiscMenu = ({ listDisc, discMenu, setDiscMenu }) => {
                     totalMustPaid: totalMustPaid
                 });
                 //Controlling for discount by percent
-            } else if (!disc.amount && disc.subtotal) {
+            } else if (disc.amount && !disc.subtotal) {
+                console.log('eee');
                 setSelectedDisc(disc);
+                let newObjectOrder = [];
+                for (const order of listOrders) {
+                    order.discount = true;
+                    order.discName = disc.name;
+                    order.discId = disc.id;
+                    order.discountAmunt = disc.value
+                    newObjectOrder.push(order)
+                    setListOrders(newObjectOrder);
+                };
+                const totalMustPaid = totalAfterRounding(
+                    orderInfo.totalTax,
+                    orderInfo.totalServiceCharge,
+                    orderInfo.subTotalItem,
+                    setting.rounding,
+                    disc.value
+                );
+                setOrderInfo({
+                    ...orderInfo,
+                    totalDisc: disc.value,
+                    totalMustPaid: totalMustPaid
+                });
+            } else if (!disc.amount && disc.subtotal) {
+                // console.log('subss')
                 let newObjectOrder = [];
                 for (const order of listOrders) {
                     if (
@@ -71,10 +115,22 @@ const DiscMenu = ({ listDisc, discMenu, setDiscMenu }) => {
                         order.id === disc.item2 ||
                         order.id === disc.item3
                     ) {
+                        setSelectedDisc(disc);
                         order.discount = true;
                         order.discName = disc.name;
                         order.discId = disc.id;
-                        order.discountAmunt = disc.value / 100 * order.itemPrice
+                        order.discountAmunt = disc.value / 100 * order.totalItemPrice
+                        newObjectOrder.push(order)
+                    } else if (!disc.category1_id && !disc.category2_id && !disc.category3_id
+                        && !disc.department1_id && !disc.department2_id && !disc.department3_id
+                        && !disc.item1 && !disc.item2 && !disc.item3) {
+                        setSelectedDisc(disc);
+                        console.log('kosong');
+
+                        order.discount = true;
+                        order.discName = disc.name;
+                        order.discId = disc.id;
+                        order.discountAmunt = disc.value / 100 * order.totalItemPrice
                         newObjectOrder.push(order)
                     } else {
                         newObjectOrder.push(order)
@@ -92,9 +148,6 @@ const DiscMenu = ({ listDisc, discMenu, setDiscMenu }) => {
                     ...orderInfo,
                     totalDisc: totalDisc,
                 })
-
-                console.log(disc)
-                console.log(listOrders)
             }
         } else {
             setSelectedDisc([]);
@@ -112,9 +165,6 @@ const DiscMenu = ({ listDisc, discMenu, setDiscMenu }) => {
 
 
     useEffect(() => {
-        console.log(listOrders)
-        console.log(selectedDisc)
-        console.log(orderInfo)
     }, [listDisc, orderInfo, selectedDisc])
     return (
         <div>
@@ -132,9 +182,9 @@ const DiscMenu = ({ listDisc, discMenu, setDiscMenu }) => {
                                     key={disc.id}
                                     className={
                                         selectedDisc.id === disc.id ?
-                                            "px-12 py-2 bg-slate-700 rounded-md font-semibold text-sm"
+                                            "py-4 text-center bg-slate-700 rounded-md font-semibold text-sm"
                                             :
-                                            'px-12 py-2 bg-primary rounded-md font-semibold text-sm'}>
+                                            'py-4 text-center bg-primary rounded-md font-semibold text-sm'}>
                                     {disc.name}
                                 </button>
                             ))

@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 const OrderQty = () => {
-    const { listOrders, setListOrders, activeItem, setActiveItem, setting } = useContext(ContextProvider);
+    const { listOrders, setListOrders, activeItem, setActiveItem, selectedDisc, setting, setOrderInfo, orderInfo } = useContext(ContextProvider);
     const [qtyPopUp, setQtyPopPup] = useState(false);
     const [qty, setQty] = useState(1);
     const [errorQty, setErrorQty] = useState(false)
@@ -56,7 +56,7 @@ const OrderQty = () => {
     };
 
     const handleKeydownQty = (e) => {
-        if (e.key === 'Enter'){
+        if (e.key === 'Enter') {
             if (errorQty === false) {
                 let orderFiltered = [];
                 for (const item of listOrders) {
@@ -91,16 +91,28 @@ const OrderQty = () => {
                     let newItem = [];
                     newItem = item;
                     newItem.qty = qty;
+                    newItem.discountAmunt = !selectedDisc.amount && (totalItemPrice(newItem.qty, newItem.itemPrice)) * selectedDisc.value / 100
                     newItem.totalItemPrice = totalItemPrice(newItem.qty, newItem.itemPrice);
                     newItem.serviceChargeAmount = newItem.serviceCharge ? serviceChargeAmount(setting.serviceChargeRate, item.totalItemPrice) : 0;
                     newItem.taxAmount = newItem.tax ? taxAmount(setting.taxRate, newItem.totalItemPrice) : 0;
                     console.log(newItem)
-                    orderFiltered.push(newItem)
+                    orderFiltered.push(newItem);
+
+                    let totalDisc = 0;
+                    for (const order of listOrders) {
+                        if (order.discount) {
+                            totalDisc = totalDisc + order.discountAmunt;
+                        }
+                    }
+                    setOrderInfo({
+                        ...orderInfo,
+                        totalDisc: totalDisc,
+                    })
                 } else {
                     orderFiltered.push(item)
                 }
             }
-            setListOrders(orderFiltered)
+            setListOrders(orderFiltered);
         } else {
             toast.error("Please select item first", {
                 position: toast.POSITION.TOP_CENTER,
@@ -108,6 +120,11 @@ const OrderQty = () => {
             });
         }
     };
+
+    useEffect(() => {
+        console.log(listOrders)
+        console.log(selectedDisc)
+    }, [])
     return (
         <div className='w-1/12 ml-2'>
             <ToastContainer limit={1} />

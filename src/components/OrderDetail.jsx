@@ -8,6 +8,8 @@ import { ContextProvider } from '../helpers/context';
 import instance from '../services/axiosConfig';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { useParams } from 'react-router-dom';
+
 
 const OrderDetail = () => {
     let {
@@ -36,7 +38,7 @@ const OrderDetail = () => {
     const voidDiscHandler = () => {
         setSelectedDisc([]);
 
-        let orderAfterVoidDisc = [] ;
+        let orderAfterVoidDisc = [];
         for (const order of listOrders) {
             order.discount = false;
             order.discName = '';
@@ -81,10 +83,10 @@ const OrderDetail = () => {
     }
 
     const searchHandler = async (e) => {
-        const input = document.getElementById('searchInput').value;
+        let input = document.getElementById('searchInput')
         if (e.key === 'Enter') {
             try {
-                const getItem = await instance.get(`/item/${input}`)
+                const getItem = await instance.get(`/item/${input.value}`)
                 const item = getItem.data.data
                 if (item) {
                     console.log(item)
@@ -110,11 +112,13 @@ const OrderDetail = () => {
                         discId: null
                     }
                     ]);
-                    setActiveItem(null)
+                    setActiveItem(null);
                 }
             } catch (error) {
                 console.log(`${error.code}: ${error.message}`)
             };
+            //Clear input text
+            input.value = null
         };
     };
 
@@ -134,7 +138,7 @@ const OrderDetail = () => {
             })
         );
 
-        if(listOrders.length === 1){
+        if (listOrders.length === 1) {
             setSelectedDisc([]);
             setIsActiveDiscount(false);
 
@@ -159,22 +163,17 @@ const OrderDetail = () => {
         await instance.get('/setting')
             .then((result) => {
                 setSetting(result.data.data[0])
-                // console.log(setting)
-                // console.log(setting)
             }).catch((err) => {
                 console.log(err)
             });
     };
 
+    const params = useParams();
+
     useEffect(() => {
         searchInputRef.current.focus();
         getSetting();
-        console.log(listOrders);
-        console.log(selectedDisc)
-
-        AOS.init({
-            duration: 300
-        });
+       
     }, [activeItem, listOrders, orderInfo, selectedDisc]);
 
     return (
@@ -187,9 +186,9 @@ const OrderDetail = () => {
                 type="text"
                 className='focus:outline-1 w-full rounded-sm bg-secondary/90 h-8 indent-2 focus-within:shadow-md focus' />
             <div className='mt-4 flex flex-col max-h-[100vh] min-h-[100vh] relative'>
-                <div className='max-h-[55vh] min-h-[55vh] overflow-y-scroll whitespace-nowrap scroll-smooth scrollbar-hide'>
+                <div className='max-h-[40vh] overflow-y-scroll whitespace-nowrap scroll-smooth scrollbar-hide'>
                     {listOrders.length > 0 ? listOrders?.map((item, i) => (
-                        <div key={i} data-aos="fade-up" onClick={() => itemDetailHandler(item)} onDoubleClick={() => doubleItemClick()}
+                        <div key={i}   onClick={() => itemDetailHandler(item)} onDoubleClick={() => doubleItemClick()}
                             className={activeItem === item.index ?
                                 "flex cursor-pointer text-xs w-full mb-4 bg-neutral-600 hover:bg-secondary/60 h-10 items-center gap-4 rounded-md" :
                                 'flex cursor-pointer text-xs w-full mb-4 bg-secondary hover:bg-neutral-600 h-10 items-center gap-4 rounded-md'}>
@@ -199,7 +198,7 @@ const OrderDetail = () => {
                                         <FiTrash2 color='#df4759' size={20} />
                                     </div>
                                     :
-                                    <p data-aos="fade-left" className='bg-white z-40 px-1 text-secondary rounded-full ml-2'>{i + 1}</p>
+                                    <p className='bg-white z-40 px-1 text-secondary rounded-full ml-2'>{i + 1}</p>
                             }
                             <p className='w-9/12'>{`${item.itemName}`}<span className='text-danger text-base'>{item.discount ? '*' : ''}</span> </p><span>{item.qty}</span>
                             <p className='text-right w-2/12 mr-2'>{thousandSeperator(item.totalItemPrice)}</p>
@@ -211,7 +210,6 @@ const OrderDetail = () => {
                         selectedDisc.value > 0 && selectedDisc.name.length > 1 && listOrders.length >= 1 &&
                         <div
                             onClick={btnDiscHandler}
-                            data-aos="fade-up"
                             className='flex justify-between px-2 cursor-pointer text-xs w-full mb-4 bg-success/80 hover:bg-success/60 h-10 items-center gap-4 rounded-md'>
                             {
                                 isActiveDiscount ?
@@ -232,9 +230,12 @@ const OrderDetail = () => {
                         </div>
                     }
                 </div>
-                <div className='max-h-[36vh] min-h-[32vh] w-full bg-secondary rounded-md px-2 text-xs z-60 absolute bottom-24'>
+                <div className='max-h-[40vh] min-h-[32vh] w-full bg-secondary rounded-md px-2 text-xs z-60 absolute bottom-24'>
                     <div className='border-b-2 border-dotted'>
                         <div className='flex w-full justify-between mb-2 pt-4'>
+                            <p className='text-center text-base font-medium w-full'>TABLE {params.table}</p>
+                        </div>
+                        <div className='flex w-full justify-between mb-2'>
                             <p>TAX</p>
                             <p>{orderInfo.totalTax ? thousandSeperator(orderInfo.totalTax) : 0}</p>
                         </div>
