@@ -23,7 +23,9 @@ exports.createDiscount = async (req, res) => {
 
 exports.getAllDiscount = async (req, res) =>{
     try {
-        let getDiscount = await discounts.findAll();
+        let getDiscount = await discounts.findAll({
+            where: {active: true}
+        });
         return res.status(200).send({
             message: "Retrieve success",
             data: getDiscount

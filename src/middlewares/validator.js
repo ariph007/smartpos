@@ -57,3 +57,11 @@ exports.createItemValidator = [
 	check('category_id', 'Category  cannot be empty').not().isEmpty(),
 	check('salesWarehouse_id', 'Sales warehouse  cannot be empty').not().isEmpty(),
 ];
+exports.createTableValidator = [
+	check('name', 'Name  cannot be empty').not().isEmpty(),
+	check('capacity', 'Name  cannot be empty').not().isEmpty(),
+	check('height', 'Name  cannot be empty').not().isEmpty(),
+	check('width', 'Name  cannot be empty').not().isEmpty(),
+	check('x', 'Name  cannot be empty').not().isEmpty(),
+	check('y', 'Name  cannot be empty').not().isEmpty(),
+];
