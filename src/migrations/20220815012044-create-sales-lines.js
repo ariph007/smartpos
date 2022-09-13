@@ -21,10 +21,16 @@ module.exports = {
       discountName: {
         type: Sequelize.STRING
       },
-      discountValue: {
-        type: Sequelize.FLOAT
+      index: {
+        type: Sequelize.STRING
       },
-      serviceChargeRate: {
+      tax: {
+        type: Sequelize.DOUBLE
+      },
+      totalPrice: {
+        type: Sequelize.DOUBLE
+      },
+      serviceCharge: {
         type: Sequelize.FLOAT
       },
       unitPrice: {
@@ -34,7 +40,7 @@ module.exports = {
       quantity: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        defaultValue: 1
+        defaultValue: 0
       },
       item_id: {
         type: Sequelize.INTEGER,

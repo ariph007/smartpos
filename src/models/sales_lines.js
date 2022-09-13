@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       models.sales_lines.belongsTo(models.items,{
-        foreignkey: "item_id"
+        foreignkey: "item_id",
       });
 
       models.sales_lines.belongsTo(models.employees,{
@@ -33,17 +33,48 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.STRING,
     discountAmount: DataTypes.DOUBLE,
     discountName: DataTypes.STRING,
-    discountValue: DataTypes.FLOAT,
-    serviceChargeRate: DataTypes.DOUBLE,
+    serviceCharge: DataTypes.DOUBLE,
     unitPrice: DataTypes.DOUBLE,
-    item_id: DataTypes.INTEGER,
+    itemId: {
+      type: DataTypes.INTEGER,
+      field: 'item_id',
+      references: {
+        model: 'items',
+        key: 'id'
+      }
+    },
     quantity: DataTypes.INTEGER,
-    employee_id: DataTypes.INTEGER,
-    discount_id: DataTypes.INTEGER,
-    sales_id: DataTypes.INTEGER
+    employeeId: {
+      type: DataTypes.INTEGER,
+      field: 'employee_id',
+      references: {
+        model: 'employees',
+        key: 'id'
+      }
+    },
+    discountId:{
+      type: DataTypes.INTEGER,
+      field: 'discount_id',
+      references: {
+        model: 'discounts',
+        key: 'id'
+      }
+    },
+    saleId: {
+      type: DataTypes.INTEGER,
+      field: 'sales_id',
+      references: {
+        model: 'sales',
+        key: 'id'
+      }
+    },
+    index: DataTypes.INTEGER,
+    tax: DataTypes.DOUBLE,
+    totalPrice: DataTypes.DOUBLE,
   }, {
     sequelize,
-    modelName: 'sales_lines',
+    modelName: 'sales_lines'
+    
   });
   return sales_lines;
 };

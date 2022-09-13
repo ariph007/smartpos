@@ -21,7 +21,7 @@ module.exports = {
       discountAmount: {
         type: Sequelize.DOUBLE
       },
-      extraCharge: {
+      serviceCharge: {
         type: Sequelize.DOUBLE
       },
       rounding: {
@@ -38,6 +38,7 @@ module.exports = {
       },
       paymentMethod_id: {
         type: Sequelize.INTEGER,
+        // field: paymentMethod_id,
         allowNull: true,
         references: {
           model: "payment_methods",
@@ -53,6 +54,33 @@ module.exports = {
           key: "id"
         },
         onDelete: "CASCADE"
+      },
+      employee_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references : {
+          model: "employees",
+          key: "id"
+        },
+        onDelete: "CASCADE"
+      },
+      totalGuest: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+      },
+      totalItem: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+      },
+      totalQty: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+      },
+      tax: {
+        type: Sequelize.DOUBLE
       },
       createdAt: {
         allowNull: false,

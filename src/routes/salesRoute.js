@@ -7,6 +7,6 @@ const validator = require('../middlewares/validator');
 router.post('/', authorization.verifyToken, authorization.verifyRole, salesController.createSales);
 // router.put('/', authorization.verifyToken, authorization.verifyRole,validator.createCategoryValidator ,categoryController.updateCategory);
 // router.delete('/delete/:id', authorization.verifyToken, authorization.verifyRole ,categoryController.deleteCategory);
-// router.get('/', authorization.verifyToken, authorization.verifyRole ,categoryController.getAllCategory);
+router.get('/unpaid', authorization.verifyToken, authorization.verifyRole , salesController.getUnpaidSales);
 
 module.exports = router

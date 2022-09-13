@@ -16,30 +16,41 @@ exports.createSales = async ( req, res) => {
             created: pcName,
             customerName: req.body.customerName,
             discountAmount: req.body.discountAmount,
-            extraCharge: req.body.extraCharge,
+            serviceCharge: req.body.serviceCharge,
             rounding: req.body.rounding,
             subtotal: req.body.subtotal,
             total: req.body.total,
-            invoice_id: getInvoiceId
+            invoice_id: getInvoiceId,
+            totalGuest: req.body.totalGuest,
+            totalItem: req.body.totalItem,
+            totalQty: req.body.totalQty,
+            paymentMethod_id: req.body.paymentMethod_id,
+            tax: req.body.tax,
+            employee_id: req.body.employee_id
         });
-        const getSalesId = getSales.id
+        const getSalesId = getSales.id;
 
         const items = req.body.item;
+        console.log('==========================')
+        console.log(items)
         
         let getItemSale = null;
         await items.map((item) => {
             getItemSale =  sales_lines.create({
                 created: pcName,
-                description: item.description,
-                discountAmount: item.discountAmount,
-                discountName: item.discountName,
-                discountValue: item.discountValue,
-                serviceChargeRate: item.serviceChargeRate,
-                unitPrice : item.unitPrice,
-                item_id: item.item_id,
-                employee_id: item.employee_id,
-                discount_id: item.discount_id,
-                sales_id: getSalesId
+                description: item.itemName,
+                discountAmount: item.discountAmunt || 0,
+                discountName: item.discName || '',
+                serviceCharge: item.serviceChargeAmount,
+                unitPrice : item.itemPrice,
+                item_id: item.id,
+                quantity: item.qty,
+                employee_id: 1,
+                discount_id: item.discId || null,
+                sales_id: getSalesId,
+                index: item.index,
+                tax: item.taxAmount,
+                totalPrice: item.totalItemPrice,
             })
         });
 
@@ -53,6 +64,30 @@ exports.createSales = async ( req, res) => {
         })
     }
 };
+
+
+exports.getUnpaidSales = async (req, res) => {
+    try {
+        let unpaidSales = await sales.findAll({
+            where: {
+                paymentMethod_id : null
+            }
+        });
+
+        return res.status(200).send({
+            message: "Retrieve success",
+            data: unpaidSales
+        })
+    } catch (error) {
+        res.status(500).send({
+            code: 500,
+            status: false,
+            message: error.message || "Something went wrong while get unpaid sales",
+            data : null
+        })
+    }
+}
+
 
 // exports.addItemSales = async (req, res) => {
 //     try {

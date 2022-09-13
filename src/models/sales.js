@@ -18,6 +18,14 @@ module.exports = (sequelize, DataTypes) => {
       models.sales.belongsTo(models.invoices,{
         foreignKey: "invoice_id"
       });
+      
+      models.sales.belongsTo(models.employees,{
+        foreignKey: "employee_id"
+      });
+
+      models.sales.belongsTo(models.payment_methods,{
+        foreignKey: "paymentMethod_id"
+      });
 
       models.sales.belongsTo(models.payment_methods,{
         foreignkey: "paymentMethod_id"
@@ -29,15 +37,29 @@ module.exports = (sequelize, DataTypes) => {
     created: DataTypes.STRING,
     customerName: DataTypes.STRING,
     discountAmount: DataTypes.DOUBLE,
-    extraCharge: DataTypes.DOUBLE,
+    serviceCharge: DataTypes.DOUBLE,
+    tax: DataTypes.DOUBLE,
     rounding: DataTypes.BOOLEAN,
     subtotal: DataTypes.DOUBLE,
     total: DataTypes.DOUBLE,
     invoice_id: DataTypes.INTEGER,
-    paymentMethod_id: DataTypes.INTEGER,
+    paymentMethodId: {
+      type: DataTypes.INTEGER,
+      field: 'paymentMethod_id',
+      references: {
+        model: 'payment_methods',
+        key: 'id'
+      }
+    },
+    totalGuest: DataTypes.INTEGER,
+    totalItem: DataTypes.INTEGER,
+    totalQty: DataTypes.INTEGER,
+    employee_id: DataTypes.INTEGER,
+    
   }, {
     sequelize,
     modelName: 'sales',
+    // underscored:true
   });
   return sales;
 };
