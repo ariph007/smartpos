@@ -3,12 +3,13 @@ import { Items } from '../constants/items';
 import { thousandSeperator } from '../constants/thousandSeperator';
 import { totalPay, totalAfterRounding, totalBeforeRounding, taxAmount, serviceChargeAmount } from '../constants/orderFormula';
 import { FiTrash2 } from 'react-icons/fi';
+import { GiTable } from "react-icons/gi";
 import { TbDiscount } from "react-icons/tb";
 import { ContextProvider } from '../helpers/context';
 import instance from '../services/axiosConfig';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 
 const OrderDetail = () => {
@@ -46,7 +47,7 @@ const OrderDetail = () => {
             order.discountAmunt = 0;
             orderAfterVoidDisc.push(order)
         }
-        setListOrders(orderAfterVoidDisc)
+        setListOrders(orderAfterVoidDisc);
         const subTotalItem = listOrders?.length &&
             listOrders.reduce(function (acc, obj) {
                 return acc + obj.totalItemPrice
@@ -168,7 +169,9 @@ const OrderDetail = () => {
             });
     };
 
-    const params = useParams();
+    // const params = useParams();
+    // const location = useLocation();
+    // let {tableName, totalGuest} = location.state
 
     useEffect(() => {
         searchInputRef.current.focus();
@@ -233,7 +236,8 @@ const OrderDetail = () => {
                 <div className='max-h-[40vh] min-h-[32vh] w-full bg-secondary rounded-md px-2 text-xs z-60 absolute bottom-24'>
                     <div className='border-b-2 border-dotted'>
                         <div className='flex w-full justify-between mb-2 pt-4'>
-                            <p className='text-center text-base font-medium w-full'>TABLE {params.table}</p>
+                            <p className='text-base items-center font-medium w-full'>TABLE {orderInfo.table} </p>
+                            <p className='text-base text-right font-medium w-full'>{orderInfo.totalGuest} PPL</p>
                         </div>
                         <div className='flex w-full justify-between mb-2'>
                             <p>TAX</p>

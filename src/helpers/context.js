@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import instance from "../services/axiosConfig";
 export const ContextProvider = React.createContext(null);
 
 export const ContextWrapper = props => {
+    const [loginInformation, setLoginInformation] = useState([]);
     const [items, setItems] = useState([]);
     const [listOrders, setListOrders] = useState([]);
     const [activeItem, setActiveItem] = useState([]);
@@ -10,6 +10,8 @@ export const ContextWrapper = props => {
     const [setting, setSetting] = useState({});
     const [indexItem, setIndexItem] = useState(0);
     const [orderInfo, setOrderInfo] = useState({
+        table: '',
+        totalGuest: '2',
         totalTax: 0,
         totalDisc: 0,
         totalServiceCharge: 0,
@@ -26,6 +28,8 @@ export const ContextWrapper = props => {
     return (
         <ContextProvider.Provider
             value={{
+                loginInformation,
+                setLoginInformation,
                 items,
                 setItems,
                 listOrders,

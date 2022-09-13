@@ -223,6 +223,7 @@ const OrderItem = () => {
     // getItems();
     console.log(selectedDisc);
     console.log(listOrders);
+    console.log(orderInfo);
     getSetting();
     orderInfoHandler();
     // console.log(orderInfo.totalMustPaid)

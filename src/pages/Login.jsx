@@ -7,6 +7,7 @@ import { ThreeDots } from 'react-loader-spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ContextProvider } from '../helpers/context';
+import jwtDecode from 'jwt-decode';
 
 
 const Login = () => {
@@ -18,7 +19,7 @@ const Login = () => {
             password: ""
         }
     });
-    let {token, setToken} = useContext(ContextProvider);
+    let {token, setToken, loginInformation, setLoginInformation} = useContext(ContextProvider);
 
     // console.log(errors)
     const loginHandler = async (data) => {
@@ -29,6 +30,16 @@ const Login = () => {
         })
             .then((result) => {
                 // console.log(result.data.token)
+                const jwtDecoded = jwtDecode(result.data.token);
+                setLoginInformation({
+                    id: jwtDecoded.id,
+                    name: jwtDecoded.name,
+                    role: jwtDecoded.role
+                })
+
+
+
+
                 localStorage.setItem('token', result.data.token)
                 // setToken(result.data.token)
                 setLoading(false)
@@ -37,7 +48,7 @@ const Login = () => {
                     autoClose: 1500
                 });
                 setInterval(() => {
-                    navigateTo('/order')
+                    navigateTo('/dashboard')
                 }, 2000);
             }).catch((err) => {
                 setLoading(false)
